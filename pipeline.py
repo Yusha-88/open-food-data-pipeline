@@ -10,19 +10,45 @@ url = 'https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.g
 
 engine = create_engine('postgresql://root:root@localhost:5432/open_food')
 
+relevant_cols = [
+    "product_name",
+    "generic_name",
+    "brands",
+    "origins",
+    "countries_en",
+    "allergens",
+    "nutriscore_score",
+    "nutriscore_grade",
+    "brand_owner",
+    "environmental_score_score",
+    "environmental_score_grade",
+    "energy-kcal_100g",
+    "energy_100g",
+    "fat_100g",
+    "saturated-fat_100g",
+    "trans-fat_100g",
+    "cholesterol_100g",
+    "carbohydrates_100g",
+    "sugars_100g",
+    "added-sugars_100g",
+    "fiber_100g",
+    "proteins_100g",
+    "salt_100g",
+    "added-salt_100g"
+]
+
 # Extraction
-def extract_csv(url, nrows=None):       
+def extract_csv(url, nrows=None):
+    print("Starting...")       
     df_iter = pd.read_csv(
         url, 
         sep='\t',
         nrows=nrows,
+        usecols=relevant_cols,
         iterator=True,
         low_memory=False,
         chunksize=100000
         )
-    
-    for df_chunk in tqdm(df_iter):
-        df_chunk.to_sql(name='open_food', con=engine, if_exists='replace');
     
     return df_iter
 
@@ -33,24 +59,13 @@ def transform_dataframe(Dataframe):
 # Load open food df into Postgres DB.
 def load_df_to_database(Dataframe):
     for df_chunk in tqdm(Dataframe):
-        df_chunk.to_sql(name='open_food', con=engine, if_exists='replace');
+        df_chunk.to_sql(name='open_food', con=engine, if_exists='append');
 
 def main():
     
-    # open_food_df_iter = 
+    open_food_df = extract_csv(url, 2000000)
 
-    extract_csv(url, 300000)
-
-    # open_food_dataframe = pd.concat(open_food_df_iter, ignore_index=True)
-
-    # open_food_df = transform_dataframe(open_food_df)
-
-    # load_df_to_database(open_food_df_iter)
-
-    # open_food_columns_list = open_food_dataframe.columns.tolist()
-
-    # for column in open_food_columns_list:
-        # print(column)
+    load_df_to_database(open_food_df)
 
     print("Finished")
 
