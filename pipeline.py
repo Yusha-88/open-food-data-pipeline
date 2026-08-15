@@ -15,7 +15,7 @@ relevant_cols = [
     "generic_name",
     "brands",
     "origins",
-    "countries_en",
+    "countries",
     "allergens",
     "nutriscore_score",
     "nutriscore_grade",
@@ -38,7 +38,7 @@ relevant_cols = [
 ]
 
 # Extraction
-def extract_csv(url, nrows=None):
+def extract_transform_csv(url, nrows=None):
     print("Starting...")       
     df_iter = pd.read_csv(
         url, 
@@ -52,21 +52,14 @@ def extract_csv(url, nrows=None):
     
     return df_iter
 
-# Transform original dataframe to only include certain fields: foods from Australia only, etc.
-def transform_dataframe(Dataframe):
-    return None
-
 # Load open food df into Postgres DB.
 def load_df_to_database(Dataframe):
     for df_chunk in tqdm(Dataframe):
         df_chunk.to_sql(name='open_food', con=engine, if_exists='append');
 
-def main():
-    
-    open_food_df = extract_csv(url, 2000000)
-
+def main():  
+    open_food_df = extract_transform_csv(url, 1000000)
     load_df_to_database(open_food_df)
-
     print("Finished")
 
     # open_food_df.to_csv('output.csv', index=False)
