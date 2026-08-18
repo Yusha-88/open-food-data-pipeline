@@ -7,4 +7,4 @@ COPY pyproject.toml .python-version uv.lock ./
 RUN uv sync --locked
 
 # WORKDIR /code
-# COPY pipeline.py .
+COPY pipeline.py .
