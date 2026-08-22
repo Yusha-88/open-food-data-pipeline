@@ -11,7 +11,7 @@ url = 'https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.g
 # Postgres parameters
 pg_user = 'root'
 pg_pass = 'root'
-pg_host = 'localhost'
+pg_host = 'pgdatabase'
 pg_port = 5432
 pg_db = 'open_food'
 
@@ -25,10 +25,10 @@ relevant_cols = [
     "origins",
     "countries",
     "allergens",
-    # "nutriscore_score",
+    "nutriscore_score",
     "nutriscore_grade",
     "brand_owner",
-    # "environmental_score_score",
+    "environmental_score_score",
     "environmental_score_grade",
     "energy-kcal_100g",
     "energy_100g",
@@ -54,7 +54,7 @@ testing_cols = [
     "environmental_score_grade",
 ]
 
-# Extraction
+# Extraction and transformation
 def extract_transform_csv(url, nrows=None):
     print("Starting...")       
     df_iter = pd.read_csv(

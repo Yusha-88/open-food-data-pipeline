@@ -3,6 +3,8 @@ A simple ETL pipeline that ingests an Open Food Data CSV into a Postgres databas
 
 ### Change log:
 
+22/08/26 - Put pipeline.py in a Docker container and connected it to the PostgreSQL container. General tidy-up up of pipeline.py.
+
 18/08/26 - Added try-except block to the load to database function, allowing majority of the 4.5 millions records to be uploaded. 
 
 15/08/26 - Decided to load 1 million rows of data from original CSV into Postgres.
