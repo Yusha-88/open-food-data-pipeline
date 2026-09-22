@@ -6,19 +6,20 @@ A simple ETL pipeline that ingests an Open Food Data CSV into a Postgres databas
 
 1. Clone repo and ensure Docker is installed.
 
-    git clone https://github.com/Yusha-88/open-food-data-pipeline.git
+    `git clone https://github.com/Yusha-88/open-food-data-pipeline.git`
 
 2. Run docker compose up.
 
-    docker compose up
+    `docker compose up`
 
 3. Find the docker network via docker network ls. One will be created when you run docker compose.
 
 4. Run docker build -t for pipeline.py.
 
-    docker build -t open-food-pipeline:v001 .
+    `docker build -t open-food-pipeline:v001 .`
 
 5. Execute docker run for container using the below. 
+```
     docker run -it \
     --network="your docker network name here": \
     open-food-pipeline:v001 \
@@ -28,6 +29,7 @@ A simple ETL pipeline that ingests an Open Food Data CSV into a Postgres databas
         --pg-port=5432 \
         --pg-db=open_food \
         --target-table=open_food
+```
 
 6. The ETL pipeline script will now run. 
 
